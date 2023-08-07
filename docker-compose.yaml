@@ -1,0 +1,39 @@
+version: '3'
+services:
+  frontend:
+    image: tonzi/yolo-client:1.0.0
+    ports:
+      - 3000:3000
+    stdin_open: true
+    depends_on:
+      - backend
+    networks:
+      yolo-network:
+        ipv4_address: 172.20.0.10
+  backend:
+    image: tonzi/yolo-backend:1.0.0
+    ports:
+      - 5000:5000
+    environment:
+      MONGODB_URI: 'mongodb://yolo:yolo123@172.20.0.1:27017/'
+    depends_on:
+      - database
+    networks:
+      yolo-network:
+        ipv4_address: 172.20.0.20
+  database:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: yolo
+      MONGO_INITDB_ROOT_PASSWORD: yolo123
+    ports:
+      - 27017:27017
+    networks:
+      yolo-network:
+        ipv4_address: 172.20.0.100
+networks:
+  yolo-network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
