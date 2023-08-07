@@ -14,7 +14,7 @@ RUN npm run build
 
 #Stage 2
 #######################################
-#pull the official nginx:1.19.0 base image
+#pull the official nginx:alpine image
 FROM nginx:alpine
 #copies React to the container directory
 # Set working directory to nginx resources directory
